@@ -5,8 +5,10 @@ import org.springframework.data.domain.Persistable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.util.Objects;
 
+@MappedSuperclass
 public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @Id
