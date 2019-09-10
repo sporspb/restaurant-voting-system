@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "restaurant_id", "user_id"}, name = "votes_unique_date_restaurant_user_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "user_id"}, name = "votes_unique_date_user_idx")})
 public class Vote extends AbstractBaseEntity {
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date", nullable = false, columnDefinition = "date default now()")
     @NotNull
     private LocalDate date;
 

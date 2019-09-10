@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "name", "restaurant_id"}, name = "dishes_unique_date_name_restaurant_idx")})
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dishes_unique_restaurant_name_idx")})
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "date", nullable = false)
@@ -34,11 +34,12 @@ public class Dish extends AbstractNamedEntity {
     }
 
     public Dish(Dish d) {
-        this(d.getId(), d.getDate(), d.getName(), d.getPrice());
+        this(d.getId(), d.getRestaurant(), d.getDate(), d.getName(), d.getPrice());
     }
 
-    public Dish(Integer id, LocalDate date, String name, int price) {
+    public Dish(Integer id, Restaurant restaurant, LocalDate date, String name, int price) {
         super(id, name);
+        this.restaurant = restaurant;
         this.date = date;
         this.price = price;
     }

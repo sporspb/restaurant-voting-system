@@ -11,7 +11,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
@@ -46,25 +49,18 @@ public class User extends AbstractNamedEntity implements HasEmail {
     @BatchSize(size = 200)
     private Set<Role> roles;
 
-    @Column
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @OrderBy("date DESC")
-    @BatchSize(size = 200)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Vote> votes;
-
     public User() {
     }
 
     public User(User u) {
-        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.getVotes(), u.isEnabled(), u.getRegistered(), u.getRoles());
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
-    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, null, true, new Date(), EnumSet.of(role, roles));
+    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, Role role, Role... roles) {
+        this(id, name, email, password, true, new Date(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String name, String email, String password, List<Vote> votes, boolean enabled, Date registered, Collection<Role> roles) {
+    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, boolean enabled, @NotNull Date registered, Set<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
@@ -111,14 +107,6 @@ public class User extends AbstractNamedEntity implements HasEmail {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
     }
 
     @Override

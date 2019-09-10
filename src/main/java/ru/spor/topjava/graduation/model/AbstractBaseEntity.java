@@ -6,7 +6,9 @@ import ru.spor.topjava.graduation.HasId;
 
 import javax.persistence.*;
 
+@MappedSuperclass
 @Access(AccessType.FIELD)
+//@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE, isGetterVisibility = NONE, setterVisibility = NONE)
 public abstract class AbstractBaseEntity implements Persistable<Integer>, HasId {
     public static final int START_SEQ = 100000;
 
