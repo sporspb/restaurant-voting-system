@@ -1,24 +1,25 @@
-package main.java.ru.spor.topjava.graduation.model;
+package ru.spor.topjava.graduation.model;
 
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
+import ru.spor.topjava.graduation.HasId;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.util.Objects;
+import javax.persistence.*;
 
-@MappedSuperclass
-public abstract class AbstractBaseEntity implements Persistable<Integer> {
+@Access(AccessType.FIELD)
+public abstract class AbstractBaseEntity implements Persistable<Integer>, HasId {
+    public static final int START_SEQ = 100000;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+
     protected Integer id;
 
-    public AbstractBaseEntity() {
+    protected AbstractBaseEntity() {
     }
 
-    public AbstractBaseEntity(Integer id) {
+    protected AbstractBaseEntity(Integer id) {
         this.id = id;
     }
 
@@ -33,24 +34,29 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @Override
     public boolean isNew() {
-        return id == null;
+        return this.id == null;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":" + id;
+        return String.format("Entity %s (%s)", getClass().getName(), id);
     }
+
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
+            return false;
+        }
         AbstractBaseEntity that = (AbstractBaseEntity) o;
-        return Objects.equals(id, that.id);
+        return id != null && id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id == null ? 0 : id;
     }
 }

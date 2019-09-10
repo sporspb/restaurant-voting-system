@@ -1,4 +1,4 @@
-package main.java.ru.spor.topjava.graduation.model;
+package ru.spor.topjava.graduation.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
