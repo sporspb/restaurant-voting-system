@@ -1,8 +1,12 @@
 package ru.spor.topjava.graduation.util;
 
+import org.slf4j.Logger;
 import ru.spor.topjava.graduation.HasId;
 import ru.spor.topjava.graduation.util.exception.IllegalRequestDataException;
 import ru.spor.topjava.graduation.util.exception.NotFoundException;
+
+import javax.lang.model.type.ErrorType;
+import javax.servlet.http.HttpServletRequest;
 
 public class ValidationUtil {
 
@@ -52,5 +56,19 @@ public class ValidationUtil {
             result = cause;
         }
         return result;
+    }
+
+    public static String getMessage(Throwable e) {
+        return e.getLocalizedMessage() != null ? e.getLocalizedMessage() : e.getClass().getName();
+    }
+
+    public static Throwable logAndGetRootCause(Logger log, HttpServletRequest req, Exception e, boolean logException, ErrorType errorType) {
+        Throwable rootCause = ValidationUtil.getRootCause(e);
+        if (logException) {
+            log.error(errorType + " at request " + req.getRequestURL(), rootCause);
+        } else {
+            log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
+        }
+        return rootCause;
     }
 }

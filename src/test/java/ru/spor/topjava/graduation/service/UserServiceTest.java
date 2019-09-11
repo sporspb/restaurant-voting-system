@@ -1,11 +1,13 @@
 package ru.spor.topjava.graduation.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
 import ru.spor.topjava.graduation.model.Role;
 import ru.spor.topjava.graduation.model.User;
+import ru.spor.topjava.graduation.repository.JpaUtil;
 import ru.spor.topjava.graduation.util.exception.NotFoundException;
 
 import java.util.Collections;
@@ -19,6 +21,15 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected UserService service;
+
+    @Autowired
+    private JpaUtil jpaUtil;
+
+    @BeforeEach
+    void setUp() {
+        cacheManager.getCache("users").clear();
+        jpaUtil.clear2ndLevelCache();
+    }
 
     @Test
     void create() throws Exception {
