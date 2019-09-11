@@ -11,10 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
@@ -56,8 +53,8 @@ public class User extends AbstractNamedEntity implements HasEmail {
         this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
-    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, Role role, Role... roles) {
-        this(id, name, email, password, true, new Date(), EnumSet.of(role, roles));
+    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, Role role) {
+        this(id, name, email, password, true, new Date(), Collections.singleton(role));
     }
 
     public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, boolean enabled, @NotNull Date registered, Set<Role> roles) {
