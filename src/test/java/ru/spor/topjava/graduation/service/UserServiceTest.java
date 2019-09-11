@@ -13,6 +13,7 @@ import ru.spor.topjava.graduation.util.exception.NotFoundException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.spor.topjava.graduation.UserTestData.*;
@@ -27,7 +28,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @BeforeEach
     void setUp() {
-        cacheManager.getCache("users").clear();
+        Objects.requireNonNull(cacheManager.getCache("users")).clear();
         jpaUtil.clear2ndLevelCache();
     }
 
@@ -43,7 +44,7 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     void duplicateMailCreate() throws Exception {
         assertThrows(DataAccessException.class, () ->
-                service.create(new User(null, "Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER)));
+                service.create(new User(null, "Duplicate", "user1@yandex.ru", "newPass", Role.ROLE_USER)));
     }
 
     @Test
