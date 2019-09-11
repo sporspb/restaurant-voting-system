@@ -14,7 +14,7 @@ public class UserTestData {
     // public static final int USER_2_ID = START_SEQ + 2;
     // public static final int USER_3_ID = START_SEQ + 3;
 
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN, Role.ROLE_USER);
 
     public static final User USER = new User(USER_ID, "User1", "user1@yandex.ru", "password1", Role.ROLE_USER);
     // public static final User USER_2 = new User(USER_2_ID, "User2", "user2@yandex.ru", "password2", Role.ROLE_USER);

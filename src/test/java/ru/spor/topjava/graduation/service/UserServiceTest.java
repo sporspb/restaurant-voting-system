@@ -34,7 +34,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void create() throws Exception {
-        User newUser = new User(null, "New", "new@gmail.com", "newPass", false, new Date(), Collections.singleton(Role.ROLE_USER));
+        User newUser = new User(null, "New", "new@gmail.com", "newPass", Collections.emptyList(), false, new Date(), Collections.singleton(Role.ROLE_USER));
         User created = service.create(new User(newUser));
         newUser.setId(created.getId());
         assertMatch(newUser, created);
