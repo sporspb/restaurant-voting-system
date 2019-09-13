@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.spor.topjava.graduation.UserTestData.*;
+import static ru.spor.topjava.graduation.UserTestDataUtil.*;
 
 public class UserServiceTest extends AbstractServiceTest {
 
