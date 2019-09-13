@@ -7,10 +7,13 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_date_user_idx")})
 public class Vote extends AbstractBaseEntity {
+
+    public static final LocalTime DECISION_TIME = LocalTime.of(11, 0);
 
     @Column(name = "date", nullable = false, columnDefinition = "date default now()")
     @NotNull
@@ -34,12 +37,14 @@ public class Vote extends AbstractBaseEntity {
     }
 
     public Vote(Vote v) {
-        this(v.getId(), v.getDate());
+        this(v.getId(), v.getDate(), v.getRestaurant(), v.getUser());
     }
 
-    public Vote(Integer id, LocalDate date) {
+    public Vote(Integer id, @NotNull LocalDate date, @NotNull Restaurant restaurant, @NotNull User user) {
         super(id);
         this.date = date;
+        this.restaurant = restaurant;
+        this.user = user;
     }
 
     public LocalDate getDate() {

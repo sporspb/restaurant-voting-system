@@ -28,12 +28,13 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
     @Override
     Optional<Dish> findById(Integer id);
 
-    //getBetween and getAll
+    List<Dish> getByRestaurant_Id_OrderByDateDesc(Integer restaurant_id);
+
     List<Dish> getByRestaurant_IdAndDateBetweenOrderByDateDesc(Integer restaurantId, LocalDate startDate, LocalDate endDate);
 
     @Query("SELECT m FROM Dish m JOIN FETCH m.restaurant WHERE m.id=:id AND m.restaurant.id=:restaurantId")
     Dish getWithRestaurant(@Param("id") int id, @Param("restaurantId") int restaurantId);
 
-    @Query("SELECT m FROM Dish m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
-    Dish getForRestaurant(@Param("id") int id, @Param("restaurantId") int restaurantId);
+    @Query("SELECT d FROM Dish d WHERE d.id=:id AND d.restaurant.id=:restaurantId")
+    Dish getByIdAndRestaurantId(@Param("id") int id, @Param("restaurantId") int restaurantId);
 }
