@@ -13,9 +13,12 @@ import java.util.List;
 public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("date DESC")
     @JsonManagedReference
-    private List<Dish> dishes;
+    private List<Dish> menu;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("date DESC")
     @JsonManagedReference
     private List<Vote> votes;
 
@@ -30,16 +33,16 @@ public class Restaurant extends AbstractNamedEntity {
         super(id, name);
     }
 
-    public List<Dish> getDishes() {
-        return dishes;
+    public List<Dish> getMenu() {
+        return menu;
     }
 
     public List<Vote> getVotes() {
         return votes;
     }
 
-    public void setDishes(List<Dish> dishes) {
-        this.dishes = dishes;
+    public void setMenu(List<Dish> dishes) {
+        this.menu = dishes;
     }
 
     public void setVotes(List<Vote> votes) {

@@ -26,7 +26,7 @@ public class RestaurantService {
     }
 
     public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(id, repository.delete(id));
+        checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
     public void update(Restaurant restaurant) throws NotFoundException {
@@ -34,9 +34,9 @@ public class RestaurantService {
         checkNotFoundWithId(repository.save(restaurant), restaurant.getId());
     }
 
-    public Restaurant get(Integer restaurantId) {
-        Assert.notNull(restaurantId, "restaurantId must be not null");
-        return repository.findById(restaurantId).orElse(null);
+    public Restaurant get(Integer id) {
+        Assert.notNull(id, "id must be not null");
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
     public List<Restaurant> getAll(Sort sort) {

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
     @Override
@@ -44,7 +43,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     Restaurant getWithVotes(@Param("id") int id);
 
     //    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.lunchMenus m WHERE m.actual=:date ORDER BY r.name")
-    @Query("SELECT DISTINCT r FROM Restaurant r WHERE EXISTS (SELECT m FROM Menu m WHERE m.actual=:date) ORDER BY r.name")
+    @Query("SELECT DISTINCT r FROM Restaurant r WHERE EXISTS (SELECT m FROM Dish m WHERE m.date=:date) ORDER BY r.name")
     List<Restaurant> getAllWithMenuForDate(@Param("date") LocalDate date);
 
 }
