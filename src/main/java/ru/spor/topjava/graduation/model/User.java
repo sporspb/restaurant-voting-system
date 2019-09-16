@@ -124,18 +124,4 @@ public class User extends AbstractNamedEntity implements HasEmail {
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", registered=" + registered +
-                ", roles=" + roles +
-                ", votes=" + votes +
-                ", name='" + name + '\'' +
-                ", id=" + id +
-                '}';
-    }
 }

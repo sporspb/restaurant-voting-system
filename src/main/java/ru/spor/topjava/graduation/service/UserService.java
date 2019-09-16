@@ -84,4 +84,11 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("User %s is not found", email));
         return new AuthorizedUser(user);
     }
+
+    @CacheEvict(value = "users", allEntries = true)
+    @Transactional
+    public void enable(int id, boolean enabled) {
+        User user = get(id);
+        user.setEnabled(enabled);
+    }
 }
