@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.spor.topjava.graduation.repository.JpaUtil;
-import ru.spor.topjava.graduation.service.UserService;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
@@ -32,8 +31,7 @@ public abstract class AbstractControllerTest {
     }
 
     protected MockMvc mockMvc;
-    @Autowired
-    protected UserService userService;
+
     @Autowired
     private CacheManager cacheManager;
     @Autowired(required = false)

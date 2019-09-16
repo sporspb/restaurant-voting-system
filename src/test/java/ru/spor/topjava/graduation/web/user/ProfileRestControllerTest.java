@@ -1,11 +1,13 @@
 package ru.spor.topjava.graduation.web.user;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.spor.topjava.graduation.model.User;
+import ru.spor.topjava.graduation.service.UserService;
 import ru.spor.topjava.graduation.to.UserTo;
 import ru.spor.topjava.graduation.util.UserUtil;
 import ru.spor.topjava.graduation.web.AbstractControllerTest;
@@ -20,6 +22,9 @@ import static ru.spor.topjava.graduation.UserTestDataUtil.*;
 import static ru.spor.topjava.graduation.web.user.ProfileRestController.REST_URL;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
+
+    @Autowired
+    protected UserService service;
 
     @Test
     void get() throws Exception {
@@ -41,7 +46,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isNoContent());
-        assertMatch(userService.getAll(Sort.unsorted()), ADMIN);
+        assertMatch(service.getAll(Sort.unsorted()), ADMIN);
     }
 
     @Test
@@ -59,7 +64,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         created.setId(returned.getId());
 
         assertMatch(returned, created);
-        assertMatch(userService.getByEmail("newemail@ya.ru"), created);
+        assertMatch(service.getByEmail("newemail@ya.ru"), created);
     }
 
     //TODO fix not found
@@ -81,7 +86,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertMatch(userService.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER), updatedTo));
+        assertMatch(service.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER), updatedTo));
     }
 
     //TODO fix tests

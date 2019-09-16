@@ -1,12 +1,14 @@
 package ru.spor.topjava.graduation.web.user;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.spor.topjava.graduation.model.Role;
 import ru.spor.topjava.graduation.model.User;
+import ru.spor.topjava.graduation.service.UserService;
 import ru.spor.topjava.graduation.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -17,6 +19,9 @@ import static ru.spor.topjava.graduation.TestUtil.userHttpBasic;
 import static ru.spor.topjava.graduation.UserTestDataUtil.*;
 
 class AdminRestControllerTest extends AbstractControllerTest {
+
+    @Autowired
+    protected UserService service;
 
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
@@ -70,7 +75,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-        assertMatch(userService.getAll(Sort.by("id")), ADMIN, USER, expected);
+        assertMatch(service.getAll(Sort.by("id")), ADMIN, USER, expected);
     }
 
     @Test
@@ -83,7 +88,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonWithPassword(updated, updated.getPassword())))
                 .andExpect(status().isNoContent());
-        assertMatch(userService.get(ADMIN_ID), updated);
+        assertMatch(service.get(ADMIN_ID), updated);
     }
 
     // TODO: Fix update not found test
@@ -102,7 +107,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(userService.getAll(Sort.unsorted()), ADMIN);
+        assertMatch(service.getAll(Sort.unsorted()), ADMIN);
     }
 
     @Test

@@ -1,12 +1,16 @@
 package ru.spor.topjava.graduation;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.spor.topjava.graduation.model.Restaurant;
 import ru.spor.topjava.graduation.to.RestaurantTo;
 import ru.spor.topjava.graduation.to.RestaurantVoteTo;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.spor.topjava.graduation.TestUtil.readFromJsonMvcResult;
+import static ru.spor.topjava.graduation.TestUtil.readListFromJsonMvcResult;
 import static ru.spor.topjava.graduation.model.AbstractBaseEntity.START_SEQ;
 
 public class RestaurantTestDataUtil {
@@ -44,11 +48,11 @@ public class RestaurantTestDataUtil {
         assertThat(actual).usingElementComparatorIgnoringFields("menu").isEqualTo(expected);
     }
 
-   /* public static ResultMatcher contentJson(List<RestaurantTo> expected) {
-        return result -> assertMatchTo(readListFromJsonMvcResult(result, RestaurantTo.class), expected);
+    public static ResultMatcher contentJson(List<Restaurant> expected) {
+        return result -> assertMatch(readListFromJsonMvcResult(result, Restaurant.class), expected);
     }
 
-    public static ResultMatcher contentJson(RestaurantTo expected) {
-        return result -> assertMatchTo(readFromJsonMvcResult(result, RestaurantTo.class), expected);
-    }*/
+    public static ResultMatcher contentJson(Restaurant expected) {
+        return result -> assertMatch(readFromJsonMvcResult(result, Restaurant.class), expected);
+    }
 }
