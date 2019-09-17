@@ -3,17 +3,15 @@ package ru.spor.topjava.graduation.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import ru.spor.topjava.graduation.model.Dish;
 import ru.spor.topjava.graduation.repository.JpaUtil;
 import ru.spor.topjava.graduation.util.exception.NotFoundException;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.spor.topjava.graduation.DishTestDataUtil.assertMatch;
 import static ru.spor.topjava.graduation.DishTestDataUtil.*;
-import static ru.spor.topjava.graduation.RestaurantTestDataUtil.*;
 
 class DishServiceTest extends AbstractServiceTest {
 
@@ -31,16 +29,16 @@ class DishServiceTest extends AbstractServiceTest {
 
     @Test
     void create() {
-        Dish newDish = new Dish(null, FIRST_RESTAURANT, LocalDate.of(2019, 8, 19), "newDish test", 155);
+        Dish newDish = new Dish(null, "newDish test", 155);
         Dish created = service.create(newDish);
         newDish.setId(created.getId());
-        assertMatch(service.getByRestaurant(FIRST_RESTAURANT_ID), FIRST_DISH, SECOND_DISH, newDish);
+        assertMatch(service.getAll(Sort.by(Sort.Direction.ASC, "id")), FIRST_DISH, SECOND_DISH, THIRD_DISH, FOURTH_DISH, FIFTH_DISH, SIXTH_DISH, SEVENTH_DISH, newDish);
     }
 
     @Test
     void delete() {
-        service.delete(SIXTH_DISH_ID, THIRD_RESTAURANT_ID);
-        assertMatch(service.getByRestaurant(THIRD_RESTAURANT_ID), FIFTH_DISH, SEVENTH_DISH);
+        service.delete(SIXTH_DISH_ID);
+        assertMatch(service.getAll(Sort.by(Sort.Direction.ASC, "id")), FIRST_DISH, SECOND_DISH, THIRD_DISH, FOURTH_DISH, FIFTH_DISH, SEVENTH_DISH);
     }
 
     @Test
@@ -49,11 +47,6 @@ class DishServiceTest extends AbstractServiceTest {
         updated.setPrice(100);
         service.update(updated);
         assertMatch(service.get(FIRST_DISH_ID), updated);
-    }
-
-    @Test
-    void getByRestaurant() {
-        assertMatch(service.getByRestaurant(THIRD_RESTAURANT_ID), FIFTH_DISH, SIXTH_DISH, SEVENTH_DISH);
     }
 
     @Test
@@ -68,6 +61,6 @@ class DishServiceTest extends AbstractServiceTest {
 
     @Test
     void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(1, FIRST_RESTAURANT_ID));
+        assertThrows(NotFoundException.class, () -> service.delete(1));
     }
 }
