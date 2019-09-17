@@ -50,12 +50,11 @@ public class User extends AbstractNamedEntity implements HasEmail {
     @BatchSize(size = 200)
     private Set<Role> roles;
 
-    @Column
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("date DESC")
     @BatchSize(size = 200)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Vote> votes;
+    private Set<Vote> votes;
 
     public User() {
     }
@@ -68,7 +67,7 @@ public class User extends AbstractNamedEntity implements HasEmail {
         this(id, name, email, password, null, true, new Date(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String name, String email, String password, List<Vote> votes, boolean enabled, Date registered, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, Set<Vote> votes, boolean enabled, Date registered, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
@@ -117,11 +116,13 @@ public class User extends AbstractNamedEntity implements HasEmail {
         this.password = password;
     }
 
-    public List<Vote> getVotes() {
+    public Set<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(List<Vote> votes) {
+    public void setVotes(Set<Vote> votes) {
+        if (votes.isEmpty())
+            this.votes = Collections.emptySet();
         this.votes = votes;
     }
 }

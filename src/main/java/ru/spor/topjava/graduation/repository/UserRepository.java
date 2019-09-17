@@ -1,6 +1,7 @@
 package ru.spor.topjava.graduation.repository;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,9 +27,18 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     int delete(@Param("id") int id);
 
     @Override
+    @EntityGraph(attributePaths = {"roles"})
     Optional<User> findById(Integer id);
 
+    @Transactional
+    @Query("SELECT u FROM User u " +
+            "LEFT JOIN FETCH u.votes v " +
+            "LEFT JOIN FETCH v.restaurant " +
+            "WHERE u.id=?1")
+    User findByIdWithVotes(int id);
+
     @Override
+    @EntityGraph(attributePaths = {"roles"})
     List<User> findAll(Sort sort);
 
     User getByEmail(String email);

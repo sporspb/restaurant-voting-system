@@ -57,6 +57,10 @@ public class UserService implements UserDetailsService {
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
+    public User getWithVotes(int id) {
+        return checkNotFoundWithId(repository.findByIdWithVotes(id), id);
+    }
+
     @Cacheable("users")
     public List<User> getAll(Sort sort) {
         return repository.findAll(sort);

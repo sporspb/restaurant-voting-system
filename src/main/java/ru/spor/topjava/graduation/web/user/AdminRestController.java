@@ -11,6 +11,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 @RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController extends AbstractUserController {
@@ -26,6 +28,12 @@ public class AdminRestController extends AbstractUserController {
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
         return super.get(id);
+    }
+
+    @GetMapping(value = "/{id}/votes", produces = APPLICATION_JSON_VALUE)
+    public User getByIdWithVotes(@PathVariable Integer id) {
+        log.info("get user {} with all votes", id);
+        return service.getWithVotes(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
