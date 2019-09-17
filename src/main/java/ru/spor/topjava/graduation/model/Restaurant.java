@@ -1,11 +1,11 @@
 package ru.spor.topjava.graduation.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
@@ -14,13 +14,11 @@ public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("date DESC")
-    @JsonManagedReference
-    private List<Dish> menu;
+    private Set<Menu> menus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("date DESC")
-    @JsonManagedReference
-    private List<Vote> votes;
+    private Set<Vote> votes;
 
     public Restaurant() {
     }
@@ -33,19 +31,23 @@ public class Restaurant extends AbstractNamedEntity {
         super(id, name);
     }
 
-    public List<Dish> getMenu() {
-        return menu;
+    public Set<Menu> getMenus() {
+        return menus;
     }
 
-    public List<Vote> getVotes() {
+    public void setMenuDishes(Set<Menu> menus) {
+        if (menus.isEmpty())
+            this.menus = Collections.emptySet();
+        this.menus = menus;
+    }
+
+    public Set<Vote> getVotes() {
         return votes;
     }
 
-    public void setMenu(List<Dish> dishes) {
-        this.menu = dishes;
-    }
-
-    public void setVotes(List<Vote> votes) {
+    public void setVotes(Set<Vote> votes) {
+        if (votes.isEmpty())
+            this.votes = Collections.emptySet();
         this.votes = votes;
     }
 }
