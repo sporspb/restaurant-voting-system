@@ -2,7 +2,9 @@ package ru.spor.topjava.graduation.to;
 
 import ru.spor.topjava.graduation.HasId;
 
-public abstract class BaseTo implements HasId {
+import java.io.Serializable;
+
+public abstract class BaseTo implements HasId, Serializable {
     protected Integer id;
 
     public BaseTo() {
