@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.spor.topjava.graduation.model.Restaurant;
+import ru.spor.topjava.graduation.service.DishService;
 import ru.spor.topjava.graduation.service.RestaurantService;
 import ru.spor.topjava.graduation.util.exception.NotFoundException;
 
@@ -31,8 +32,11 @@ public class AdminRestaurantController {
 
     private final RestaurantService restaurantService;
 
-    public AdminRestaurantController(RestaurantService service) {
-        this.restaurantService = service;
+    private final DishService dishService;
+
+    public AdminRestaurantController(RestaurantService restaurantService, DishService dishService) {
+        this.restaurantService = restaurantService;
+        this.dishService = dishService;
     }
 
     @PostMapping()
@@ -40,9 +44,11 @@ public class AdminRestaurantController {
         log.info("add restaurant {}", restaurant);
         checkNew(restaurant);
         Restaurant newRestaurant = restaurantService.add(restaurant);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+        URI uriOfNewResource = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
                 .path(REST_URL + "/{restaurantId}")
-                .buildAndExpand(newRestaurant.getId()).toUri();
+                .buildAndExpand(newRestaurant.getId())
+                .toUri();
         return ResponseEntity.created(uriOfNewResource).body(newRestaurant);
     }
 
@@ -60,4 +66,24 @@ public class AdminRestaurantController {
         log.info("delete restaurant {}", restaurantId);
         restaurantService.delete(restaurantId);
     }
+
+    /*@PostMapping(value = "/{restaurantId}/dishes")
+    public ResponseEntity<Dish> addDish(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
+        log.info("add menu {} for restaurant {}", dish, restaurantId);
+        checkNew(dish);
+        Dish newDish = restaurantService.addMenu(restaurantId, new);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + '/' + restaurantId + "/menus/{menuId}")
+                .buildAndExpand(newMenu.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(newMenu);
+    }
+
+    @DeleteMapping(value = "/{restaurantId}/dishes/{dishId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteDish(@PathVariable int dishId, @PathVariable int restaurantId) {
+        log.info("delete dish with id={} for restaurant {}", dishId, restaurantId);
+        dishService.delete(dishId, restaurantId);
+    }
+
+     */
 }

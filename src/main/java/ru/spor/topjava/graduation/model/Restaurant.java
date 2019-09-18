@@ -35,7 +35,7 @@ public class Restaurant extends AbstractNamedEntity {
         return menus;
     }
 
-    public void setMenuDishes(Set<Menu> menus) {
+    public void setMenus(Set<Menu> menus) {
         if (menus.isEmpty())
             this.menus = Collections.emptySet();
         this.menus = menus;

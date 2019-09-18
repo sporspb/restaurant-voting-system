@@ -1,7 +1,6 @@
 package ru.spor.topjava.graduation.repository;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,21 +28,59 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @Override
     Optional<Restaurant> findById(Integer id);
 
-    @Override
-    List<Restaurant> findAll(Sort sort);
+    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN r.menus m WHERE m.date=?1 ORDER BY r.id")
+    List<Restaurant> findByDate(LocalDate date);
 
     Restaurant findByName(String name);
 
-    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
-    Restaurant getWithDishes(Integer id);
+    @Override
+    List<Restaurant> findAll(Sort sort);
 
-    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
-    Restaurant getWithVotes(@Param("id") int id);
+    @Transactional
+    @Query("SELECT DISTINCT r FROM Restaurant r " +
+            "LEFT JOIN FETCH r.menus m " +
+            "LEFT JOIN FETCH m.dish " +
+            "ORDER BY r.id")
+    List<Restaurant> findAllWithMenus();
 
-    //    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.lunchMenus m WHERE m.actual=:date ORDER BY r.name")
-    @Query("SELECT DISTINCT r FROM Restaurant r WHERE EXISTS (SELECT m FROM Dish m WHERE m.date=:date) ORDER BY r.name")
-    List<Restaurant> getAllWithMenuForDate(@Param("date") LocalDate date);
+    @Transactional
+    @Query("SELECT DISTINCT r FROM Restaurant r " +
+            "LEFT JOIN FETCH r.votes v " +
+            "LEFT JOIN FETCH v.user " +
+            "ORDER BY r.id")
+    List<Restaurant> findAllWithVotes();
 
+    @Transactional
+    @Query("SELECT DISTINCT r FROM Restaurant r " +
+            "LEFT JOIN FETCH r.menus m " +
+            "LEFT JOIN FETCH m.dish " +
+            "LEFT JOIN FETCH r.votes v " +
+            "LEFT JOIN FETCH v.user " +
+            "ORDER BY r.id")
+    List<Restaurant> findAllWithMenusAndVotes();
+
+    @Transactional
+    @Query("SELECT r FROM Restaurant r " +
+            "LEFT JOIN FETCH r.menus m " +
+            "LEFT JOIN FETCH m.dish d " +
+            "WHERE r.id=?1 " +
+            "ORDER BY r.id")
+    Restaurant findByIdWithMenus(int id);
+
+    @Transactional
+    @Query("SELECT r FROM Restaurant r " +
+            "LEFT JOIN FETCH r.votes v " +
+            "LEFT JOIN FETCH v.user " +
+            "WHERE r.id=?1 " +
+            "ORDER BY r.id")
+    Restaurant findByIdWithVotes(int id);
+
+    @Transactional
+    @Query("SELECT DISTINCT r FROM Restaurant r " +
+            "LEFT JOIN FETCH r.menus m " +
+            "LEFT JOIN FETCH m.dish " +
+            "LEFT JOIN FETCH r.votes v " +
+            "LEFT JOIN FETCH v.user WHERE r.id=?1 " +
+            "ORDER BY r.id")
+    Restaurant findByIdWithMenusAndVotes(int id);
 }
