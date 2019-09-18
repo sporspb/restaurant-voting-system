@@ -10,7 +10,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "menus_unique_date_restaurant_idx")})
 public class Menu extends AbstractBaseEntity {
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
     private LocalDate date;
 
@@ -27,13 +27,17 @@ public class Menu extends AbstractBaseEntity {
     public Menu() {
     }
 
+    public Menu(Menu m) {
+        this(m.getId(), m.getDate(), m.getDish(), m.getRestaurant());
+    }
+
     public Menu(@NotNull LocalDate date, @NotNull Restaurant restaurant) {
         this.date = date;
         this.restaurant = restaurant;
     }
 
     public Menu(Integer id, @NotNull LocalDate date) {
-        this.id = id;
+        super(id);
         this.date = date;
     }
 
@@ -44,7 +48,7 @@ public class Menu extends AbstractBaseEntity {
     }
 
     public Menu(Integer id, @NotNull LocalDate date, Dish dish, @NotNull Restaurant restaurant) {
-        this.id = id;
+        super(id);
         this.date = date;
         this.dish = dish;
         this.restaurant = restaurant;
