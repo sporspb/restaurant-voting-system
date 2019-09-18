@@ -49,11 +49,12 @@ class MenuServiceTest extends AbstractServiceTest {
 
     @Test
     void updateFromTo() {
-        FIRST_MENU.setRestaurant(THIRD_RESTAURANT);
-        FIRST_MENU.setDate(LocalDate.of(2019, 8, 22));
-        MenuTo menuTo = new MenuTo(FIRST_MENU);
+        Menu updated = new Menu(FIRST_MENU);
+        updated.setRestaurant(THIRD_RESTAURANT);
+        updated.setDate(LocalDate.of(2019, 8, 22));
+        MenuTo menuTo = new MenuTo(updated);
         service.updateFromTo(menuTo);
-        assertMatch(service.getById(FIRST_MENU_ID), FIRST_MENU);
+        assertMatch(service.getById(FIRST_MENU_ID), updated);
     }
 
     @Test
