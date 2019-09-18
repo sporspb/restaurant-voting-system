@@ -2,6 +2,7 @@ package ru.spor.topjava.graduation.web.dish;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,14 +21,16 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static ru.spor.topjava.graduation.util.ValidationUtil.assureIdConsistent;
 import static ru.spor.topjava.graduation.util.ValidationUtil.checkNew;
 
+@RestController
 public class DishesRestController {
 
-    private static final String REST_URL = "/dishes";
+    static final String REST_URL = "/dishes";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final DishService service;
 
+    @Autowired
     public DishesRestController(DishService service) {
         this.service = service;
     }
@@ -35,13 +38,13 @@ public class DishesRestController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getAll() {
         log.info("get all dishes");
-        return service.getAll(Sort.by(Sort.Direction.ASC, "id"));
+        return service.getAll(Sort.unsorted());
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Dish get(@PathVariable Integer id) {
+    @GetMapping(value = REST_URL + "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Dish getById(@PathVariable int id) {
         log.info("get dish with id={}", id);
-        return service.get(id);
+        return service.getById(id);
     }
 
 

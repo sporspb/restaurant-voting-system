@@ -1,10 +1,14 @@
 package ru.spor.topjava.graduation;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.spor.topjava.graduation.model.Dish;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.spor.topjava.graduation.TestUtil.readFromJsonMvcResult;
+import static ru.spor.topjava.graduation.TestUtil.readListFromJsonMvcResult;
 import static ru.spor.topjava.graduation.model.AbstractBaseEntity.START_SEQ;
 
 public class DishTestDataUtil {
@@ -50,4 +54,12 @@ public class DishTestDataUtil {
     public static void assertMatchDishTo(DishTo actual, DishTo expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "restaurant");
     }*/
+
+    public static ResultMatcher contentJson(List<Dish> expected) {
+        return result -> assertMatch(readListFromJsonMvcResult(result, Dish.class), expected);
+    }
+
+    public static ResultMatcher contentJson(Dish expected) {
+        return result -> assertMatch(readFromJsonMvcResult(result, Dish.class), expected);
+    }
 }

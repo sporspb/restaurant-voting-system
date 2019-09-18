@@ -1,5 +1,6 @@
 package ru.spor.topjava.graduation.repository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.spor.topjava.graduation.model.Dish;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,6 +24,9 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
     @Transactional
     @Query("DELETE FROM Dish m WHERE m.id=:id")
     int delete(@Param("id") int id);
+
+    @Override
+    List<Dish> findAll(Sort sort);
 
     @Override
     Optional<Dish> findById(Integer id);
