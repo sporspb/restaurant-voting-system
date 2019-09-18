@@ -4,12 +4,7 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <display-name>Restaurant Voting System</display-name>
-
-    <!--    <context-param>-->
-    <!--        <param-name>spring.profiles.default</param-name>-->
-    <!--        <param-value>postgres,datajpa</param-value>-->
-    <!--    </context-param>-->
+    <display-name>Restaurant-Voting-System</display-name>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
