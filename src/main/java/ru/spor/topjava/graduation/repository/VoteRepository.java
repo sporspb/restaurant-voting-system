@@ -1,5 +1,6 @@
 package ru.spor.topjava.graduation.repository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     @Transactional
     Vote save(Vote vote);
+
+    List<Vote> findAll(Sort sort);
 
     List<Vote> findAllByUserId(int userId);
 

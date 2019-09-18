@@ -1,5 +1,6 @@
 package ru.spor.topjava.graduation.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -78,6 +79,10 @@ public class VoteService {
 
     public List<Vote> getForRestaurantAndDate(Integer restaurantId, LocalDate date) {
         return voteRepository.findByRestaurantIdAndDateBetween(restaurantId, date, date);
+    }
+
+    public List<Vote> getAll(Sort sort) {
+        return voteRepository.findAll(sort);
     }
 
 }
