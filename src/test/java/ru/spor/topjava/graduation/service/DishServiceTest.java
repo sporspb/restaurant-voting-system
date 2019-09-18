@@ -55,6 +55,11 @@ class DishServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    void getAll() {
+        assertMatch(service.getAll(Sort.by(Sort.Direction.ASC, "id")), FIRST_DISH, SECOND_DISH, THIRD_DISH, FOURTH_DISH, FIFTH_DISH, SIXTH_DISH, SEVENTH_DISH);
+    }
+
+    @Test
     void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(1));
     }
