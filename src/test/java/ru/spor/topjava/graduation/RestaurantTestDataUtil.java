@@ -2,7 +2,6 @@ package ru.spor.topjava.graduation;
 
 import org.springframework.test.web.servlet.ResultMatcher;
 import ru.spor.topjava.graduation.model.Restaurant;
-import ru.spor.topjava.graduation.to.RestaurantVoteTo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,10 +24,6 @@ public class RestaurantTestDataUtil {
 
     public static void assertMatch(Restaurant actual, Restaurant expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "menus", "votes");
-    }
-
-    public static void assertMatch(RestaurantVoteTo actual, RestaurantVoteTo expected) {
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
     public static void assertMatch(Iterable<Restaurant> actual, Restaurant... expected) {

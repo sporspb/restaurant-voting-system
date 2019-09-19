@@ -91,16 +91,6 @@ class AdminRestControllerTest extends AbstractControllerTest {
         assertMatch(service.get(ADMIN_ID), updated);
     }
 
-    // TODO: Fix update not found test
-    /*@Test
-    void updateNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(new User())))
-                .andExpect(status().isUnprocessableEntity());
-    }*/
-
     @Test
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID)

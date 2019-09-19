@@ -67,16 +67,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         assertMatch(service.getByEmail("newemail@ya.ru"), created);
     }
 
-    //TODO fix not found
-    /*@Test
-    void registerNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL + "/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(new UserTo())))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
-    }*/
-
     @Test
     void update() throws Exception {
         UserTo updatedTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
@@ -88,14 +78,4 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
         assertMatch(service.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER), updatedTo));
     }
-
-    //TODO fix tests
-    /*@Test
-    void updateNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER))
-                .content(JsonUtil.writeValue(new UserTo())))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
-    }*/
 }

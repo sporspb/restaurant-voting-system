@@ -65,25 +65,4 @@ public class AdminRestaurantController {
         log.info("delete restaurant {}", restaurantId);
         restaurantService.delete(restaurantId);
     }
-
-    //TODO this
-    /*@PostMapping(value = "/{restaurantId}/dishes")
-    public ResponseEntity<Dish> addDish(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
-        log.info("add menu {} for restaurant {}", dish, restaurantId);
-        checkNew(dish);
-        Dish newDish = restaurantService.addMenu(restaurantId, new);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + '/' + restaurantId + "/menus/{menuId}")
-                .buildAndExpand(newMenu.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(newMenu);
-    }
-
-    @DeleteMapping(value = "/{restaurantId}/dishes/{dishId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteDish(@PathVariable int dishId, @PathVariable int restaurantId) {
-        log.info("delete dish with id={} for restaurant {}", dishId, restaurantId);
-        dishService.delete(dishId, restaurantId);
-    }
-
-     */
 }

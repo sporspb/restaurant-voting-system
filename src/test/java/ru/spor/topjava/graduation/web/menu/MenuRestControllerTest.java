@@ -71,19 +71,6 @@ public class MenuRestControllerTest extends AbstractControllerTest {
                 .andExpect(contentJson(List.of(FIRST_MENU, SECOND_MENU, THIRD_MENU, FOURTH_MENU)));
     }
 
-    //TODO fix this test on Maven
-    /*@Test
-    void create() throws Exception {
-        MenuTo createdTo = getCreatedTo();
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL)
-                .with(userHttpBasic(ADMIN))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(createdTo)))
-                .andExpect(status().isCreated());
-
-        assertMatch(service.getAll(Sort.by("id")), FIRST_MENU, SECOND_MENU, THIRD_MENU, FOURTH_MENU, FIFTH_MENU, SIXTH_MENU, SEVENTH_MENU, NEW_MENU);
-    }*/
-
     @Test
     void update() throws Exception {
         MenuTo updated = getUpdatedTo();

@@ -38,24 +38,6 @@ public class DishTestDataUtil {
         assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
     }
 
-    //TODO this
-    /*
-    public static void assertMatchToWithRestaurant(DishRestaurantTo actual, DishRestaurantTo expected) {
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
-    }
-
-    public static void assertMatchDishTo(Iterable<DishTo> actual, Iterable<DishTo> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("restaurant").isEqualTo(expected);
-    }
-
-    public static void assertMatchDishToIgnoreId(Iterable<DishTo> actual, Iterable<DishTo> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("restaurant", "id").isEqualTo(expected);
-    }
-
-    public static void assertMatchDishTo(DishTo actual, DishTo expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "restaurant");
-    }*/
-
     public static ResultMatcher contentJson(List<Dish> expected) {
         return result -> assertMatch(readListFromJsonMvcResult(result, Dish.class), expected);
     }
