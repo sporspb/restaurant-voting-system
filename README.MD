@@ -67,21 +67,21 @@ Base URL: `localhost:8080/voting/rest/`
 
 | Method | Description          | URL                                                 | Access         |
 |--------|----------------------|-----------------------------------------------------|----------------|
-| GET    | Get All              | {Base URL}/restaurant/all                           | Everyone       |
-| GET    | Get                  | {Base URL}/restaurant/{restaurantID}                | Everyone       |
-| POST   | Create               | {Base URL}/restaurant                               | Admin Only     |
-| DELETE | Delete               | {Base URL}/restaurant/{restaurantID}                | Admin Only     |
-| PUT    | Update               | {Base URL}/restaurant/{restaurantID}                | Admin Only     |
+| GET    | Get All              | {Base URL}/restaurants                              | Everyone       |
+| GET    | Get                  | {Base URL}/restaurants/{restaurantID}                | Everyone       |
+| POST   | Create               | {Base URL}/restaurants                               | Admin Only     |
+| DELETE | Delete               | {Base URL}/restaurants/{restaurantID}                | Admin Only     |
+| PUT    | Update               | {Base URL}/restaurants/{restaurantID}                | Admin Only     |
 
 ### Manage dishes
 
 | Method | Description          | URL                                                 | Access         |
 |--------|----------------------|-----------------------------------------------------|----------------|
-| GET    | Get All              | {Base URL}/dish/all                                 | Admin Only     |
-| GET    | Get                  | {Base URL}/dish/{restaurantID}                      | Admin Only     |
+| GET    | Get All              | {Base URL}/dish                                     | Admin Only     |
+| GET    | Get                  | {Base URL}/dish/{dishID}                            | Admin Only     |
 | POST   | Create               | {Base URL}/dish                                     | Admin Only     |
-| DELETE | Delete               | {Base URL}/dish/{restaurantID}                      | Admin Only     |
-| PUT    | Update               | {Base URL}/dish/{restaurantID}                      | Admin Only     |
+| DELETE | Delete               | {Base URL}/dish/{dishID}                            | Admin Only     |
+| PUT    | Update               | {Base URL}/dish/{dishID}                            | Admin Only     |
 
 ### Manage menus
 
@@ -89,6 +89,7 @@ Base URL: `localhost:8080/voting/rest/`
 |--------|----------------------|-----------------------------------------------------|----------------|
 | GET    | Get All              | {Base URL}/menu                                     | Everyone       |
 | GET    | Get                  | {Base URL}/menu/{menuID}                            | Everyone       |
+| GET    | Get by date          | {Base URL}/menu?date={date}                         | Everyone       |
 | POST   | Create               | {Base URL}/menu                                     | Admin Only     |
 | DELETE | Delete               | {Base URL}/menu/{menuID}                            | Admin Only     |
 | PUT    | Update               | {Base URL}/menu/{menuID}                            | Admin Only     |
@@ -180,6 +181,8 @@ Base URL: `localhost:8080/voting/rest/`
 - Get menu by id:
 `curl -s http://localhost:8080/voting/rest/menu/100017 --user user@yandex.ru:password`
 
+- Get menu by date
+`curl -s http://localhost:8080/voting/rest/menu?date=2019-08-19 --user user@yandex.ru:password`
 - Create new menu:
 `curl -s -X POST -d '{"date":"2018-12-31", "restaurantId":"100003", "dishId":"100005"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/rest/menu --user admin@gmail.com:admin`
 
