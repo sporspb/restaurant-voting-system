@@ -3,7 +3,9 @@ package ru.spor.topjava.graduation.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.spor.topjava.graduation.model.Vote;
+import ru.spor.topjava.graduation.util.exception.VotingTimeIsOutException;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.spor.topjava.graduation.RestaurantTestDataUtil.*;
 import static ru.spor.topjava.graduation.UserTestDataUtil.*;
 import static ru.spor.topjava.graduation.VoteTestDataUtil.assertMatch;
@@ -39,7 +41,8 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void voteUpdateAfterDecisionTime() {
-        service.vote(USER_ID, SECOND_RESTAURANT_ID, VOTE_DATE_TIME_AFTER.toLocalDate(), VOTE_DATE_TIME_AFTER.toLocalTime());
+        assertThrows(VotingTimeIsOutException.class, () ->
+                service.vote(USER_ID, SECOND_RESTAURANT_ID, VOTE_DATE_TIME_AFTER.toLocalDate(), VOTE_DATE_TIME_AFTER.toLocalTime()));
         assertMatch(service.getForRestaurantAndDate(SECOND_RESTAURANT_ID, VOTE_DATE_TIME_AFTER.toLocalDate()), ADMIN_VOTE_2);
     }
 

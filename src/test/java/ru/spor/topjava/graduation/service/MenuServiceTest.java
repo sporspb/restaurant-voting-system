@@ -44,7 +44,7 @@ class MenuServiceTest extends AbstractServiceTest {
         Menu updated = new Menu(FIRST_MENU);
         updated.setDish(SIXTH_DISH);
         service.update(updated);
-        assertMatch(service.getById(FIRST_MENU_ID), updated);
+        assertMatch(service.get(FIRST_MENU_ID), updated);
     }
 
     @Test
@@ -54,7 +54,7 @@ class MenuServiceTest extends AbstractServiceTest {
         updated.setDate(LocalDate.of(2019, 8, 22));
         MenuTo menuTo = new MenuTo(updated);
         service.updateFromTo(menuTo);
-        assertMatch(service.getById(FIRST_MENU_ID), updated);
+        assertMatch(service.get(FIRST_MENU_ID), updated);
     }
 
     @Test
@@ -85,7 +85,7 @@ class MenuServiceTest extends AbstractServiceTest {
 
     @Test
     void getById() {
-        Menu menu = service.getById(FIRST_MENU_ID);
+        Menu menu = service.get(FIRST_MENU_ID);
         assertMatch(menu, FIRST_MENU);
     }
 }

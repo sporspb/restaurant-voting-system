@@ -13,11 +13,16 @@
         <intercept-url pattern="/rest/profile/register" access="isAnonymous()"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
-        <intercept-url pattern="/rest/dishes/**" method="GET" access="permitAll()"/>
-        <intercept-url pattern="/rest/dishes/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/rest/dish/**" access="hasRole('ROLE_ADMIN')"/>
 
         <intercept-url pattern="/rest/restaurant/**" method="GET" access="permitAll()"/>
         <intercept-url pattern="/rest/restaurant/**" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="/rest/menu/**" method="GET" access="permitAll()"/>
+        <intercept-url pattern="/rest/menu/**" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="rest/vote/**" access="isAuthenticated()"/>
+
         <csrf disabled="true"/>
     </http>
 

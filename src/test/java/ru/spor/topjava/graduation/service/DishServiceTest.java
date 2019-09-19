@@ -1,14 +1,11 @@
 package ru.spor.topjava.graduation.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import ru.spor.topjava.graduation.model.Dish;
 import ru.spor.topjava.graduation.repository.JpaUtil;
 import ru.spor.topjava.graduation.util.exception.NotFoundException;
-
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.spor.topjava.graduation.DishTestDataUtil.*;
@@ -20,12 +17,6 @@ class DishServiceTest extends AbstractServiceTest {
 
     @Autowired
     private JpaUtil jpaUtil;
-
-    @BeforeEach
-    void setUp() {
-        Objects.requireNonNull(cacheManager.getCache("meals")).clear();
-        jpaUtil.clear2ndLevelCache();
-    }
 
     @Test
     void create() {
@@ -46,12 +37,12 @@ class DishServiceTest extends AbstractServiceTest {
         Dish updated = new Dish(FIRST_DISH);
         updated.setPrice(100);
         service.update(updated);
-        assertMatch(service.getById(FIRST_DISH_ID), updated);
+        assertMatch(service.get(FIRST_DISH_ID), updated);
     }
 
     @Test
     void get() {
-        assertMatch(service.getById(FIRST_DISH_ID), FIRST_DISH);
+        assertMatch(service.get(FIRST_DISH_ID), FIRST_DISH);
     }
 
     @Test
@@ -61,7 +52,7 @@ class DishServiceTest extends AbstractServiceTest {
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.getById(1));
+        assertThrows(NotFoundException.class, () -> service.get(1));
     }
 
     @Test

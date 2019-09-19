@@ -1,14 +1,18 @@
 package ru.spor.topjava.graduation;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.spor.topjava.graduation.model.Vote;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.spor.topjava.graduation.RestaurantTestDataUtil.FIRST_RESTAURANT;
 import static ru.spor.topjava.graduation.RestaurantTestDataUtil.SECOND_RESTAURANT;
+import static ru.spor.topjava.graduation.TestUtil.readFromJsonMvcResult;
+import static ru.spor.topjava.graduation.TestUtil.readListFromJsonMvcResult;
 import static ru.spor.topjava.graduation.UserTestDataUtil.ADMIN;
 import static ru.spor.topjava.graduation.UserTestDataUtil.USER;
 import static ru.spor.topjava.graduation.model.AbstractBaseEntity.START_SEQ;
@@ -40,7 +44,7 @@ public class VoteTestDataUtil {
         assertThat(actual).usingElementComparatorIgnoringFields("user", "restaurant").isEqualTo(expected);
     }
 
-    /*public static ResultMatcher contentJson(Vote... expected) {
+    public static ResultMatcher contentJson(Vote... expected) {
         return result -> assertMatch(readListFromJsonMvcResult(result, Vote.class), List.of(expected));
     }
 
@@ -50,5 +54,5 @@ public class VoteTestDataUtil {
 
     public static ResultMatcher contentJson(Vote expected) {
         return result -> assertMatch(readFromJsonMvcResult(result, Vote.class), expected);
-    }*/
+    }
 }
