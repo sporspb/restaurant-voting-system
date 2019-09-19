@@ -26,7 +26,7 @@ import static ru.spor.topjava.graduation.util.ValidationUtil.checkNew;
 @RequestMapping(MenuRestController.REST_URL)
 public class MenuRestController {
 
-    static final String REST_URL = "/menus";
+    static final String REST_URL = "/rest/menu";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -47,7 +47,7 @@ public class MenuRestController {
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
     public Menu get(@PathVariable int id) {
         log.info("get menu with id={}", id);
-        return menuService.getById(id);
+        return menuService.get(id);
     }
 
     @GetMapping(params = "date", produces = APPLICATION_JSON_VALUE)

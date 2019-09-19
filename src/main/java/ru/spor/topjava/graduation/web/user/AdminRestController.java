@@ -31,7 +31,7 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @GetMapping(value = "/{id}/votes", produces = APPLICATION_JSON_VALUE)
-    public User getByIdWithVotes(@PathVariable Integer id) {
+    public User getByIdWithVotes(@PathVariable int id) {
         log.info("get user {} with all votes", id);
         return service.getWithVotes(id);
     }

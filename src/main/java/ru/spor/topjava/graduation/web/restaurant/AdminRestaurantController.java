@@ -18,7 +18,6 @@ import java.net.URI;
 import static ru.spor.topjava.graduation.util.ValidationUtil.assureIdConsistent;
 import static ru.spor.topjava.graduation.util.ValidationUtil.checkNew;
 
-
 @RestController
 @RequestMapping(
         value = AdminRestaurantController.REST_URL,
@@ -26,7 +25,7 @@ import static ru.spor.topjava.graduation.util.ValidationUtil.checkNew;
         consumes = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestaurantController {
 
-    public static final String REST_URL = "/rest/admin/restaurants";
+    public static final String REST_URL = "/rest/restaurants";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -67,6 +66,7 @@ public class AdminRestaurantController {
         restaurantService.delete(restaurantId);
     }
 
+    //TODO this
     /*@PostMapping(value = "/{restaurantId}/dishes")
     public ResponseEntity<Dish> addDish(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
         log.info("add menu {} for restaurant {}", dish, restaurantId);

@@ -22,16 +22,18 @@ import static ru.spor.topjava.graduation.util.ValidationUtil.assureIdConsistent;
 import static ru.spor.topjava.graduation.util.ValidationUtil.checkNew;
 
 @RestController
-public class DishesRestController {
+@RequestMapping(DishRestController.REST_URL)
+@Secured("ROLE_ADMIN")
+public class DishRestController {
 
-    static final String REST_URL = "/dishes";
+    static final String REST_URL = "/rest/dish";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final DishService service;
 
     @Autowired
-    public DishesRestController(DishService service) {
+    public DishRestController(DishService service) {
         this.service = service;
     }
 
@@ -41,16 +43,14 @@ public class DishesRestController {
         return service.getAll(Sort.unsorted());
     }
 
-    @GetMapping(value = REST_URL + "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Dish getById(@PathVariable int id) {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Dish get(@PathVariable int id) {
         log.info("get dish with id={}", id);
-        return service.getById(id);
+        return service.get(id);
     }
 
-
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<Dish> createWithNewUri(@Valid @RequestBody Dish dish) {
+    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish) {
         log.info("create {}", dish);
         checkNew(dish);
         Dish created = service.create(dish);
@@ -64,10 +64,16 @@ public class DishesRestController {
 
     @PutMapping(value = "/{id}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @Secured("ROLE_ADMIN")
     public void update(@Valid @RequestBody Dish dish, @PathVariable Integer id) {
         log.info("update {} with id={}", dish, id);
         assureIdConsistent(dish, id);
         service.update(dish);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        log.info("delete dish with id={}", id);
+        service.delete(id);
     }
 }

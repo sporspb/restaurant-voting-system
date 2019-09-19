@@ -19,7 +19,7 @@ import java.util.List;
         produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestaurantController {
 
-    public static final String REST_URL = "/rest/profile/restaurants";
+    public static final String REST_URL = "/rest/restaurants";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
