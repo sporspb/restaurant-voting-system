@@ -12,8 +12,12 @@
         <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/rest/profile/register" access="isAnonymous()"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <csrf disabled="true"/>
+    </http>
 
+    <http>
         <intercept-url pattern="/rest/dish/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/**/admin/**" access="hasRole('ROLE_ADMIN')"/>
 
         <intercept-url pattern="/rest/restaurant/**" method="GET" access="permitAll()"/>
         <intercept-url pattern="/rest/restaurant/**" access="hasRole('ROLE_ADMIN')"/>
@@ -22,6 +26,11 @@
         <intercept-url pattern="/rest/menu/**" access="hasRole('ROLE_ADMIN')"/>
 
         <intercept-url pattern="rest/vote/**" access="isAuthenticated()"/>
+
+        <form-login login-page="/login" default-target-url="/meals"
+                    authentication-failure-url="/login?error=true"
+                    login-processing-url="/spring_security_check"/>
+        <logout logout-success-url="/login"/>
 
         <csrf disabled="true"/>
     </http>

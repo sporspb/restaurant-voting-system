@@ -12,7 +12,7 @@ Build a voting system for deciding where to have lunch.
  * Users can vote on which restaurant they want to have lunch at
  * Only one vote counted per user
  * If user votes again the same day:
-    - If it is before 11:00 we asume that he changed his mind.
+    - If it is before 11:00 we assume that he changed his mind.
     - If it is after 11:00 then it is too late, vote can't be changed
 
 Each restaurant provides new menu each day.
@@ -63,7 +63,7 @@ Base URL: `localhost:8080/voting/rest/`
 | POST   | Register Profile     | {Base URL}/profile/register                         | Not Authorized |
 
 
-### Restaurants
+### Manage restaurants
 
 | Method | Description          | URL                                                 | Access         |
 |--------|----------------------|-----------------------------------------------------|----------------|
@@ -73,7 +73,7 @@ Base URL: `localhost:8080/voting/rest/`
 | DELETE | Delete               | {Base URL}/restaurant/{restaurantID}                | Admin Only     |
 | PUT    | Update               | {Base URL}/restaurant/{restaurantID}                | Admin Only     |
 
-### Dishes
+### Manage dishes
 
 | Method | Description          | URL                                                 | Access         |
 |--------|----------------------|-----------------------------------------------------|----------------|
@@ -83,7 +83,7 @@ Base URL: `localhost:8080/voting/rest/`
 | DELETE | Delete               | {Base URL}/dish/{restaurantID}                      | Admin Only     |
 | PUT    | Update               | {Base URL}/dish/{restaurantID}                      | Admin Only     |
 
-### Menus
+### Manage menus
 
 | Method | Description          | URL                                                 | Access         |
 |--------|----------------------|-----------------------------------------------------|----------------|
@@ -93,7 +93,7 @@ Base URL: `localhost:8080/voting/rest/`
 | DELETE | Delete               | {Base URL}/menu/{menuID}                            | Admin Only     |
 | PUT    | Update               | {Base URL}/menu/{menuID}                            | Admin Only     |
 
-### Votes
+### Manage votes
 
 | Method | Description          | URL                                                 | Access         |
 |--------|----------------------|-----------------------------------------------------|----------------|
@@ -108,33 +108,96 @@ Base URL: `localhost:8080/voting/rest/`
 ## CURL SAMPLES
 
 ### User manage own profile
-- Register a new user
-curl -s -X POST -d '{"name": "newName","email": "newemail@ya.ru","password": "newPassword"}' -H 'Content-Type: application/json;charset=UTF-8' http://localhost:8080/voting/rest/profile/register`
+- Register a new user:
+`curl -s -X POST -d '{"name": "newName","email": "newemail@ya.ru","password": "newPassword"}' -H 'Content-Type: application/json;charset=UTF-8' http://localhost:8080/voting/rest/profile/register`
 
-- Get own profile
+- Get own profile:
 `curl -s http://localhost:8080/voting/rest/profile --user user@yandex.ru:password`
 
-- Update own profile
+- Update own profile:
 `curl -s -X PUT -d '{"name": "newName","email": "newemail2@ya.ru","password": "newPassword"}' -H 'Content-Type: application/json' http://localhost:8080/voting/rest/profile --user user@yandex.ru:password`
 
-- Delete own profile
+- Delete own profile:
 `curl -s -X DELETE http://localhost:8080/voting/rest/profile --user user@yandex.ru:password`
 
-### Manage profiles by admin
+### Manage profiles by admin:
 - Create new profile
 `curl -s -X POST -d '{"id": null,"name": "New User","email": "newemail2@gmail.com","password": "newPass","registered": "2019-09-12T12:00:00","enabled": true,"roles": ["ROLE_USER"]}' -H 'Content-Type: application/json;charset=UTF-8' http://localhost:8080/voting/rest/admin/users --user admin@gmail.com:admin`
 
-- Get all user profiles
+- Get all user profiles:
 `curl -s http://localhost:8080/voting/rest/admin/users --user admin@gmail.com:admin`
 
-- Get user profile by id
+- Get user profile by id:
 `curl -s http://localhost:8080/voting/rest/admin/users/100000 --user admin@gmail.com:admin`
 
-- Get user profile by email
+- Get user profile by email:
 `curl -s http://localhost:8080/voting/rest/admin/users/by?email=user@yandex.ru --user admin@gmail.com:admin`
 
-- Update user profile by id
+- Update user profile by id:
 `curl -s -X PUT -d '{"id": 100001,"name": "UpdatingName","email": "updatingemail@gmail.com", "password": "updatingPassword"}' -H 'Content-Type: application/json' http://localhost:8080/voting/rest/admin/users/100001 --user admin@gmail.com:admin`
 
-- Delete user profile by id
+- Delete user profile by id:
 `curl -s -X DELETE http://localhost:8080/voting/rest/admin/users/100001 --user admin@gmail.com:admin`
+
+### Manage dishes by admin
+
+- Create a new dish:
+`curl -s -X POST -d '{"name":"New dish", "price":"1000"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/rest/dish --user admin@gmail.com:admin`
+
+- Get all dishes:
+`curl -s http://localhost:8080/voting/rest/dish --user admin@gmail.com:admin`
+
+- Get dish by id:
+`curl -s http://localhost:8080/voting/rest/dish/100005 --user admin@gmail.com:admin`
+
+- Update dish by id:
+`curl -s -X PUT -d '{"id":"100005", "name":"Updated dish", "price":"111"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/rest/dish/100005 --user admin@gmail.com:admin`
+
+- Delete dish by id:
+`curl -s -X DELETE http://localhost:8080/voting/rest/dish/100005 --user admin@gmail.com:admin`
+
+### Manage restaurants by admin
+- Create new restaurant:
+`curl -s -X POST -d '{"name":"New restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/rest/restaurants --user admin@gmail.com:admin`
+
+- Update restaurant by id:
+`curl -s -X PUT -d '{"id":"100002", "name":"Updated restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/rest/restaurants/100002 --user admin@gmail.com:admin`
+
+- Delete restaurant by id:
+`curl -s -X DELETE http://localhost:8080/voting/rest/restaurants/100002 --user admin@gmail.com:admin`
+
+### Manage restaurants by User
+- Get restaurant by id:
+`curl -s http://localhost:8080/voting/rest/restaurants/100003 --user user@yandex.ru:password`
+
+- Get all restaurants:
+`curl -s http://localhost:8080/voting/rest/restaurants --user user@yandex.ru:password`
+
+### Menu
+- Get all menus:
+`curl -s http://localhost:8080/voting/rest/menu --user user@yandex.ru:password`
+
+- Get menu by id:
+`curl -s http://localhost:8080/voting/rest/menu/100017 --user user@yandex.ru:password`
+
+- Create new menu:
+`curl -s -X POST -d '{"date":"2018-12-31", "restaurantId":"100003", "dishId":"100005"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/rest/menu --user admin@gmail.com:admin`
+
+- Update menu by id:
+`curl -s -X PUT -d '{"id":"100015", "date":"2019-01-01", "restaurantId":"100003", "dishId":"100010"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/rest/menu/100015 --user admin@gmail.com:admin`
+
+- Delete menu by id:
+`curl -s -X DELETE http://localhost:8080/voting/rest/menu/100016 --user admin@gmail.com:admin`
+
+### Vote
+- User vote for restaurant:
+`curl -s -X POST http://localhost:8080/voting/rest/vote/100003 --user user@yandex.ru:password`
+
+- Get vote by id:
+`curl -s http://localhost:8080/voting/rest/admin/vote/100020 --user admin@gmail.com:admin`
+
+- Get all votes:
+`curl -s http://localhost:8080/voting/rest/admin/vote --user admin@gmail.com:admin`
+
+- Delete vote by id:
+`curl -s -X DELETE http://localhost:8080/voting/rest/admin/vote/100020 --user admin@gmail.com:admin`

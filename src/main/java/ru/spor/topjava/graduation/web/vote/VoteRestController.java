@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static ru.spor.topjava.graduation.web.SecurityUtil.authUserId;
 
 @RestController
 public class VoteRestController {
@@ -45,7 +46,7 @@ public class VoteRestController {
 
     @RequestMapping(value = "/rest/vote/{restaurantId}", method = {RequestMethod.PUT, RequestMethod.POST})
     public ResponseEntity<Vote> vote(@AuthenticationPrincipal AuthorizedUser authUser, @PathVariable int restaurantId) {
-        int userId = authUser.getId();
+        int userId = authUserId();
         log.info("user with id={} vote for restaurant with id={}", userId, restaurantId);
 
         Vote created = service.vote(userId, restaurantId, LocalDateTime.now().toLocalDate(), LocalDateTime.now().toLocalTime());
