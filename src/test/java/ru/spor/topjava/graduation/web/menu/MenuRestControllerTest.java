@@ -61,6 +61,16 @@ public class MenuRestControllerTest extends AbstractControllerTest {
         assertMatch(service.getAll(Sort.by("id")), SECOND_MENU, THIRD_MENU, FOURTH_MENU, FIFTH_MENU, SIXTH_MENU, SEVENTH_MENU);
     }
 
+    @Test
+    void getAllByDate() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "?date=2019-08-19")
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(List.of(FIRST_MENU, SECOND_MENU, THIRD_MENU, FOURTH_MENU)));
+    }
+
     //TODO fix this test on Maven
     /*@Test
     void create() throws Exception {

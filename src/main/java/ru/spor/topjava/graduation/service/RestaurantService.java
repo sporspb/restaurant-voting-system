@@ -43,7 +43,7 @@ public class RestaurantService {
         return repository.findAll(sort);
     }
 
-    public List<Restaurant> getAllWithMenuDishes() {
+    public List<Restaurant> getAllWithMenus() {
         return repository.findAllWithMenus();
     }
 
@@ -51,7 +51,7 @@ public class RestaurantService {
         return repository.findAllWithVotes();
     }
 
-    public List<Restaurant> getAllWithMenuDishesAndVotes() {
+    public List<Restaurant> getAllWithMenusAndVotes() {
         return repository.findAllWithMenus();
     }
 }
