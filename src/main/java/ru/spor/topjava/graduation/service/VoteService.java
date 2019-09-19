@@ -9,12 +9,14 @@ import ru.spor.topjava.graduation.model.Vote;
 import ru.spor.topjava.graduation.repository.RestaurantRepository;
 import ru.spor.topjava.graduation.repository.UserRepository;
 import ru.spor.topjava.graduation.repository.VoteRepository;
+import ru.spor.topjava.graduation.util.exception.VotingTimeIsOutException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import static ru.spor.topjava.graduation.model.Vote.DECISION_TIME;
+import static ru.spor.topjava.graduation.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class VoteService {
@@ -30,15 +32,12 @@ public class VoteService {
     }
 
     @Transactional
-    Vote vote(Integer userId, Integer restaurantId, LocalDate date, LocalTime time) {
+    public Vote vote(Integer userId, Integer restaurantId, LocalDate date, LocalTime time) {
         Assert.notNull(userId, "userId must not be null");
         Assert.notNull(restaurantId, "restaurantId must not be null");
         Vote vote = getForUserAndDate(userId, date);
         if (vote == null) {
             Restaurant restaurant = restaurantRepository.getOne(restaurantId);
-            //            if (!restaurantRepository.getAllWithMenuForDate(date).contains(restaurant)){
-            //                return null;
-            //            }
             return voteRepository.save(new Vote(null, date, restaurant, userRepository.getOne(userId)));
         } else {
             if (time.isBefore(DECISION_TIME)) {
@@ -47,21 +46,18 @@ public class VoteService {
                 }
                 vote.setRestaurant(restaurantRepository.getOne(restaurantId));
                 return voteRepository.save(vote);
-            }
-            return null;
+            } else throw new VotingTimeIsOutException("Voting time is over");
         }
     }
 
+    public Vote get(int id) {
+        return checkNotFoundWithId(voteRepository.findById(id).orElse(null), id);
+    }
+
     @Transactional
-    public boolean delete(int userId, LocalDate date) {
-        if (LocalTime.now().isBefore(DECISION_TIME)) {
-            Vote vote = getForUserAndDate(userId, date);
-            if (vote != null) {
-                voteRepository.deleteById(vote.getId());
-                return true;
-            }
-        }
-        return false;
+    public void delete(int id) {
+        checkNotFoundWithId(voteRepository.delete(id) != 0, id);
+        voteRepository.delete(id);
     }
 
     public List<Vote> getAllForUser(Integer userId) {

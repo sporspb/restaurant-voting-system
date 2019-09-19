@@ -53,7 +53,7 @@ public class MenuService {
     public void update(Menu m) {
         Assert.notNull(m, "MenuTo must be not null");
         Integer id = m.getId();
-        checkNotFoundWithId(getById(id), id);
+        checkNotFoundWithId(get(id), id);
         menuRepository.save(m);
     }
 
@@ -61,7 +61,7 @@ public class MenuService {
     public void updateFromTo(MenuTo m) {
         Assert.notNull(m, "MenuTo must be not null");
         Integer id = m.getId();
-        Menu newMenu = checkNotFoundWithId(getById(id), id);
+        Menu newMenu = checkNotFoundWithId(get(id), id);
         Dish dish = dishRepository.getOne(m.getDishId());
         Restaurant restaurant = restaurantRepository.getOne(m.getRestaurantId());
         newMenu.setDate(m.getDate());
@@ -90,7 +90,7 @@ public class MenuService {
         return menuRepository.findAllByDateAndRestaurantId(date, restaurantId);
     }
 
-    public Menu getById(int id) {
+    public Menu get(int id) {
         return checkNotFoundWithId(menuRepository.findById(id).orElse(null), id);
     }
 }
